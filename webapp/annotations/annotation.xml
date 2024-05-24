@@ -1,0 +1,263 @@
+<edmx:Edmx xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Version="4.0">
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+        <edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common" />
+    </edmx:Reference>
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+        <edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="UI" />
+    </edmx:Reference>
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Communication.xml">
+        <edmx:Include Namespace="com.sap.vocabularies.Communication.v1" Alias="Communication" />
+    </edmx:Reference>
+    <edmx:Reference Uri="/v2/northwind/northwind.svc/$metadata">
+        <edmx:Include Namespace="NorthwindModel" />
+        <edmx:Include Namespace="ODataWeb.Northwind.Model" />
+    </edmx:Reference>
+    <edmx:DataServices>
+        <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="local">
+            <Annotations Target="NorthwindModel.Product">
+
+                <Annotation Term="UI.LineItem">
+                    <Collection>
+                        <!-- Add Input Field URL Starts -->
+                        <Record Type="UI.DataFieldWithIntentBasedNavigation">
+                            <PropertyValue Property="Label" String="Product ID"/>
+                            <PropertyValue Property="Value" Path="ProductID"/>
+                            <PropertyValue Property="SemanticObject" String="Product"/>
+                            <PropertyValue Property="Action" String="Display"/>
+                        </Record>
+                        <!--Add Input Field URL Ends  -->
+
+                        <!-- Add and edit table columns Starts -->
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="ProductName"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="QuantityPerUnit"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="UnitPrice"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="UnitsInStock"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="SupplierID"/>
+                        </Record>
+                        <!-- Add and edit table columns Starts -->
+
+                        <!-- Step 2: Progress Indicator Starts -->
+                        <Record Type="UI.DataFieldForAnnotation">
+                            <PropertyValue Property="Label" String="Progress Report" />
+                            <PropertyValue Property="Target" AnnotationPath="@UI.DataPoint#Progress" />
+                            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High" />
+                        </Record>
+                        <!-- Step 2: Progress Indicator Ends-->
+
+
+                        <!--Step 3: Adding MicroChart Start-->
+                        <Record Type="UI.DataFieldForAnnotation">
+                            <PropertyValue Property="Label" String="Column Charts"/>
+                            <PropertyValue Property="Target" AnnotationPath="@UI.Chart#CQUnitPrice"/>
+                            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+                        </Record>
+                        <!--Step 3: Adding MicroChart End-->
+                    </Collection>
+                    <!-- <Annotation Term="UI.Criticality" Path="ProductID" /> -->
+                </Annotation>
+
+                <!-- Add and edit filter fields Starts -->
+                <Annotation Term="UI.SelectionFields">
+                    <Collection>
+                        <PropertyPath>ProductID</PropertyPath>
+                        <PropertyPath>ProductName</PropertyPath>
+                        <PropertyPath>QuantityPerUnit</PropertyPath>
+                        <PropertyPath>UnitPrice</PropertyPath>
+                        <PropertyPath>UnitsInStock</PropertyPath>
+                    </Collection>
+                </Annotation>
+                <!-- Add and edit filter fields Ends -->
+
+                <!-- Configure multiple views for tables or adding tab -->
+                <Annotation Term="UI.SelectionPresentationVariant" Qualifier="Open">
+                    <Record Type="UI.SelectionPresentationVariantType">
+                        <PropertyValue Property="Text" String="Tab1" />
+                        <PropertyValue Property="SelectionVariant">
+                            <Record Type="UI.SelectionVariantType">
+                                <PropertyValue Property="SelectOptions">
+                                    <Collection>
+                                        <Record Type="UI.SelectOptionType">
+                                            <PropertyValue Property="PropertyName" PropertyPath="SupplierID" />
+                                            <PropertyValue Property="Ranges">
+                                                <Collection>
+                                                    <Record Type="UI.SelectionRangeType">
+                                                        <PropertyValue Property="Sign" EnumMember="UI.SelectionRangeSignType/I" />
+                                                        <PropertyValue Property="Option" EnumMember="UI.SelectionRangeOptionType/GE" />
+                                                        <PropertyValue Property="Low" String="1" />
+                                                    </Record>
+                                                </Collection>
+                                            </PropertyValue>
+                                        </Record>
+                                    </Collection>
+                                </PropertyValue>
+                            </Record>
+                        </PropertyValue>
+                        <PropertyValue Property="PresentationVariant">
+                            <Record Type="UI.PresentationVariantType">
+                                <PropertyValue Property="Visualizations">
+                                    <Collection>
+                                        <AnnotationPath>@UI.LineItem</AnnotationPath>
+                                    </Collection>
+                                </PropertyValue>
+                            </Record>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.SelectionPresentationVariant" Qualifier="Open1">
+                    <Record Type="UI.SelectionPresentationVariantType">
+                        <PropertyValue Property="Text" String="Tab2" />
+                        <PropertyValue Property="SelectionVariant">
+                            <Record Type="UI.SelectionVariantType">
+                                <PropertyValue Property="SelectOptions">
+                                    <Collection>
+                                        <Record Type="UI.SelectOptionType">
+                                            <PropertyValue Property="PropertyName" PropertyPath="SupplierID" />
+                                            <PropertyValue Property="Ranges">
+                                                <Collection>
+                                                    <Record Type="UI.SelectionRangeType">
+                                                        <PropertyValue Property="Sign" EnumMember="UI.SelectionRangeSignType/I" />
+                                                        <PropertyValue Property="Option" EnumMember="UI.SelectionRangeOptionType/GE" />
+                                                        <PropertyValue Property="Low" String="5" />
+                                                    </Record>
+                                                </Collection>
+                                            </PropertyValue>
+                                        </Record>
+                                    </Collection>
+                                </PropertyValue>
+                            </Record>
+                        </PropertyValue>
+                        <PropertyValue Property="PresentationVariant">
+                            <Record Type="UI.PresentationVariantType">
+                                <PropertyValue Property="Visualizations">
+                                    <Collection>
+                                        <AnnotationPath>@UI.LineItem</AnnotationPath>
+                                    </Collection>
+                                </PropertyValue>
+                            </Record>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.SelectionPresentationVariant" Qualifier="Open2">
+                    <Record Type="UI.SelectionPresentationVariantType">
+                        <PropertyValue Property="Text" String="Tab3" />
+                        <PropertyValue Property="SelectionVariant">
+                            <Record Type="UI.SelectionVariantType">
+                                <PropertyValue Property="SelectOptions">
+                                    <Collection>
+                                        <Record Type="UI.SelectOptionType">
+                                            <PropertyValue Property="PropertyName" PropertyPath="SupplierID" />
+                                            <PropertyValue Property="Ranges">
+                                                <Collection>
+                                                    <Record Type="UI.SelectionRangeType">
+                                                        <PropertyValue Property="Sign" EnumMember="UI.SelectionRangeSignType/I" />
+                                                        <PropertyValue Property="Option" EnumMember="UI.SelectionRangeOptionType/GE" />
+                                                        <PropertyValue Property="Low" String="8" />
+                                                    </Record>
+                                                </Collection>
+                                            </PropertyValue>
+                                        </Record>
+                                    </Collection>
+                                </PropertyValue>
+                            </Record>
+                        </PropertyValue>
+                        <PropertyValue Property="PresentationVariant">
+                            <Record Type="UI.PresentationVariantType">
+                                <PropertyValue Property="Visualizations">
+                                    <Collection>
+                                        <AnnotationPath>@UI.LineItem</AnnotationPath>
+                                    </Collection>
+                                </PropertyValue>
+                            </Record>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+
+                <!-- Step 1: Progress Indicator Starts -->
+                <Annotation Term="UI.DataPoint" Qualifier="Progress">
+                    <Record Type="UI.DataPointType">
+                        <PropertyValue Property="Value" Path="UnitsInStock" />
+                        <PropertyValue Property="TargetValue" Int="100" />
+                        <PropertyValue Property="Visualization" EnumMember="UI.VisualizationType/Progress" />
+                    </Record>
+                </Annotation>
+                <!-- Step 1: Progress Indicator Ends -->
+
+                <!--Step 1: Adding MicroChart Start-->
+                <Annotation Term="UI.DataPoint" Qualifier="QUnitPrice">
+                    <Record Type="UI.DataPointType">
+                        <PropertyValue Property="TargetValue" Path="UnitPrice"/>
+                        <PropertyValue Property="ForecastValue" Path="UnitPrice"/>
+                        <PropertyValue Property="Value" Path="UnitPrice"/>
+                        <PropertyValue Property="Criticality" Path="ProductName"/>
+                        <PropertyValue Property="MinimumValue" Decimal="50"/>
+                        <PropertyValue Property="MaximumValue" Decimal="100"/>
+                    </Record>
+                </Annotation>
+                <!--Step 1: Adding MicroChart End-->
+                <!--Step 2: Adding MicroChart Start-->
+                <Annotation Term="UI.Chart" Qualifier="CQUnitPrice">
+                    <Record Type="UI.ChartDefinitionType">
+                        <PropertyValue Property="ChartType" EnumMember="UI.ChartType/Column"/>
+                        <PropertyValue Property="Dimensions">
+                            <Collection>
+                                <PropertyPath>ProductName</PropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="DimensionAttributes">
+                            <Collection>
+                                <Record Type="UI.ChartDimensionAttributeType">
+                                    <PropertyValue Property="Dimension" PropertyPath="ProductName"/>
+                                    <PropertyValue Property="Role" EnumMember="UI.ChartDimensionRoleType/Category"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="Measures">
+                            <Collection>
+                                <PropertyPath>UnitPrice</PropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="MeasureAttributes">
+                            <Collection>
+                                <Record Type="UI.ChartMeasureAttributeType">
+                                    <PropertyValue Property="Measure" PropertyPath="UnitPrice"/>
+                                    <PropertyValue Property="Role" EnumMember="UI.ChartMeasureRoleType/Axis1"/>
+                                    <PropertyValue Property="DataPoint" AnnotationPath="@UI.DataPoint#QUnitPrice"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <!--Step 2: Adding MicroChart End-->
+            </Annotations>
+
+
+            <!-- Add a value help to a field in the filter bar -->
+            <Annotations Target="NorthwindModel.Product/ProductID">
+                <Annotation Term="Common.ValueList">
+                    <Record Type="Common.ValueListType">
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="ValueListProperty" String="UnitPrice" />
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="UnitsInStock" />
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="CollectionPath" String="Products" />
+                        <PropertyValue Property="SearchSupported" Bool="true" />
+                    </Record>
+                </Annotation>
+       
+            </Annotations>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>
