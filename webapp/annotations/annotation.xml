@@ -5,9 +5,6 @@
     <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
         <edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="UI" />
     </edmx:Reference>
-    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Communication.xml">
-        <edmx:Include Namespace="com.sap.vocabularies.Communication.v1" Alias="Communication" />
-    </edmx:Reference>
     <edmx:Reference Uri="/v2/northwind/northwind.svc/$metadata">
         <edmx:Include Namespace="NorthwindModel" />
         <edmx:Include Namespace="ODataWeb.Northwind.Model" />
@@ -15,19 +12,14 @@
     <edmx:DataServices>
         <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="local">
             <Annotations Target="NorthwindModel.Product">
-
                 <Annotation Term="UI.LineItem">
                     <Collection>
-                        <!-- Add Input Field URL Starts -->
                         <Record Type="UI.DataFieldWithIntentBasedNavigation">
                             <PropertyValue Property="Label" String="Product ID"/>
                             <PropertyValue Property="Value" Path="ProductID"/>
                             <PropertyValue Property="SemanticObject" String="Product"/>
                             <PropertyValue Property="Action" String="Display"/>
                         </Record>
-                        <!--Add Input Field URL Ends  -->
-
-                        <!-- Add and edit table columns Starts -->
                         <Record Type="UI.DataField">
                             <PropertyValue Property="Value" Path="ProductName"/>
                         </Record>
@@ -43,24 +35,26 @@
                         <Record Type="UI.DataField">
                             <PropertyValue Property="Value" Path="SupplierID"/>
                         </Record>
-                        <!-- Add and edit table columns Starts -->
-
-                        <!-- Step 2: Progress Indicator Starts -->
                         <Record Type="UI.DataFieldForAnnotation">
-                            <PropertyValue Property="Label" String="Progress Report" />
-                            <PropertyValue Property="Target" AnnotationPath="@UI.DataPoint#Progress" />
-                            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High" />
-                        </Record>
-                        <!-- Step 2: Progress Indicator Ends-->
-
-
-                        <!--Step 3: Adding MicroChart Start-->
-                        <Record Type="UI.DataFieldForAnnotation">
-                            <PropertyValue Property="Label" String="Column Charts"/>
-                            <PropertyValue Property="Target" AnnotationPath="@UI.Chart#CQUnitPrice"/>
+                            <PropertyValue Property="Label" String="Progress Report"/>
+                            <PropertyValue Property="Target" AnnotationPath="@UI.DataPoint#Progress"/>
                             <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
                         </Record>
-                        <!--Step 3: Adding MicroChart End-->
+                        <Record Type="UI.DataFieldForAnnotation">
+                            <PropertyValue Property="Label" String="Column Charts"/>
+                            <PropertyValue Property="Target" AnnotationPath="@UI.Chart#CQColumn"/>
+                            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+                        </Record>
+                        <Record Type="UI.DataFieldForAnnotation">
+                            <PropertyValue Property="Label" String="Bullet Chart"/>
+                            <PropertyValue Property="Target" AnnotationPath="@UI.Chart#CQBullet"/>
+                            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+                        </Record>
+                        <Record Type="UI.DataFieldForAnnotation">
+                            <PropertyValue Property="Label" String="Radial Chart"/>
+                            <PropertyValue Property="Target" AnnotationPath="@UI.Chart#CQRadial"/>
+                            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+                        </Record>
                     </Collection>
                     <!-- <Annotation Term="UI.Criticality" Path="ProductID" /> -->
                 </Annotation>
@@ -192,34 +186,68 @@
                 <!-- Step 1: Progress Indicator Ends -->
 
                 <!--Step 1: Adding MicroChart Start-->
-                <Annotation Term="UI.DataPoint" Qualifier="QUnitPrice">
+                <Annotation Term="UI.DataPoint" Qualifier="QColumn">
                     <Record Type="UI.DataPointType">
-                        <PropertyValue Property="TargetValue" Path="UnitPrice"/>
-                        <PropertyValue Property="ForecastValue" Path="UnitPrice"/>
-                        <PropertyValue Property="Value" Path="UnitPrice"/>
-                        <PropertyValue Property="Criticality" Path="ProductName"/>
-                        <PropertyValue Property="MinimumValue" Decimal="50"/>
-                        <PropertyValue Property="MaximumValue" Decimal="100"/>
+                        <PropertyValue Property="TargetValue" Path="UnitPrice" />
+                        <PropertyValue Property="ForecastValue" Path="UnitPrice" />
+                        <PropertyValue Property="Value" Path="UnitPrice" />
+                        <PropertyValue Property="Criticality" Path="UnitsInStock" />
+                        <PropertyValue Property="MinimumValue" Decimal="1" />
+                        <PropertyValue Property="MaximumValue" Decimal="100" />
                     </Record>
                 </Annotation>
                 <!--Step 1: Adding MicroChart End-->
-                <!--Step 2: Adding MicroChart Start-->
-                <Annotation Term="UI.Chart" Qualifier="CQUnitPrice">
+                <!--Step 2: Adding Column MicroChart Start-->
+                <Annotation Term="UI.Chart" Qualifier="CQColumn">
                     <Record Type="UI.ChartDefinitionType">
-                        <PropertyValue Property="ChartType" EnumMember="UI.ChartType/Column"/>
+                        <PropertyValue Property="ChartType" EnumMember="UI.ChartType/Column" />
                         <PropertyValue Property="Dimensions">
                             <Collection>
-                                <PropertyPath>ProductName</PropertyPath>
+                                <PropertyPath>ProductID</PropertyPath>
                             </Collection>
                         </PropertyValue>
                         <PropertyValue Property="DimensionAttributes">
                             <Collection>
                                 <Record Type="UI.ChartDimensionAttributeType">
-                                    <PropertyValue Property="Dimension" PropertyPath="ProductName"/>
-                                    <PropertyValue Property="Role" EnumMember="UI.ChartDimensionRoleType/Category"/>
+                                    <PropertyValue Property="Dimension" PropertyPath="ProductID" />
+                                    <PropertyValue Property="Role" EnumMember="UI.ChartDimensionRoleType/Category" />
                                 </Record>
                             </Collection>
                         </PropertyValue>
+                        <PropertyValue Property="Measures">
+                            <Collection>
+                                <PropertyPath>UnitsInStock</PropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="MeasureAttributes">
+                            <Collection>
+                                <Record Type="UI.ChartMeasureAttributeType">
+                                    <PropertyValue Property="Measure" PropertyPath="UnitsInStock" />
+                                    <PropertyValue Property="Role" EnumMember="UI.ChartMeasureRoleType/Axis1" />
+                                    <PropertyValue Property="DataPoint" AnnotationPath="@UI.DataPoint#QColumn" />
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <!--Step 2: Adding MicroChart End-->
+                
+                <!-- Bullet Charts Starts -->
+                <Annotation Term="UI.DataPoint" Qualifier="BulletQual">
+                    <Record Type="UI.DataPointType">
+                        <PropertyValue Property="TargetValue" Path="UnitPrice"/>
+                        <PropertyValue Property="ForecastValue" Path="UnitPrice"/>
+                        <PropertyValue Property="Value" Path="ProductID"/>
+                        <PropertyValue Property="Criticality" Path="ProductID"/>
+                        <PropertyValue Property="MinimumValue" Decimal="1"/>
+                        <PropertyValue Property="MaximumValue" Decimal="100"/>
+                    </Record>
+                </Annotation>
+                
+                <Annotation Term="UI.Chart" Qualifier="CQBullet">
+                    <Record Type="UI.ChartDefinitionType">
+                        <PropertyValue Property="ChartType" EnumMember="UI.ChartType/Bullet"/>
+                        <PropertyValue Property="Title" String="BulletChart"/>
                         <PropertyValue Property="Measures">
                             <Collection>
                                 <PropertyPath>UnitPrice</PropertyPath>
@@ -230,15 +258,46 @@
                                 <Record Type="UI.ChartMeasureAttributeType">
                                     <PropertyValue Property="Measure" PropertyPath="UnitPrice"/>
                                     <PropertyValue Property="Role" EnumMember="UI.ChartMeasureRoleType/Axis1"/>
-                                    <PropertyValue Property="DataPoint" AnnotationPath="@UI.DataPoint#QUnitPrice"/>
+                                    <PropertyValue Property="DataPoint" AnnotationPath="@UI.DataPoint#BulletQual"/>
                                 </Record>
                             </Collection>
                         </PropertyValue>
                     </Record>
                 </Annotation>
-                <!--Step 2: Adding MicroChart End-->
+                <!-- Bullet Charts Ends -->
+                <!-- Radial Charts Starts -->
+                <Annotation Term="UI.DataPoint" Qualifier="RadialQual">
+                    <Record Type="UI.DataPointType">
+                        <PropertyValue Property="TargetValue" Path="UnitsInStock"/>
+                        <PropertyValue Property="ForecastValue" Path="UnitsInStock"/>
+                        <PropertyValue Property="Value" Path="QuantityPerUnit"/>
+                        <PropertyValue Property="Criticality" Path="QuantityPerUnit"/>
+                        <PropertyValue Property="MinimumValue" Decimal="1"/>
+                        <PropertyValue Property="MaximumValue" Decimal="100"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.Chart" Qualifier="CQRadial">
+                    <Record Type="UI.ChartDefinitionType">
+                        <PropertyValue Property="ChartType" EnumMember="UI.ChartType/Donut"/>
+                        <PropertyValue Property="Title" String="Radial Chart"/>
+                        <PropertyValue Property="Measures">
+                            <Collection>
+                                <PropertyPath>UnitsInStock</PropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="MeasureAttributes">
+                            <Collection>
+                                <Record Type="UI.ChartMeasureAttributeType">
+                                    <PropertyValue Property="Measure" PropertyPath="UnitsInStock"/>
+                                    <PropertyValue Property="Role" EnumMember="UI.ChartMeasureRoleType/Axis1"/>
+                                    <PropertyValue Property="DataPoint" AnnotationPath="@UI.DataPoint#RadialQual"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
             </Annotations>
-
+            <!-- Radial Charts Ends -->
 
             <!-- Add a value help to a field in the filter bar -->
             <Annotations Target="NorthwindModel.Product/ProductID">
@@ -256,7 +315,6 @@
                         <PropertyValue Property="SearchSupported" Bool="true" />
                     </Record>
                 </Annotation>
-       
             </Annotations>
         </Schema>
     </edmx:DataServices>
